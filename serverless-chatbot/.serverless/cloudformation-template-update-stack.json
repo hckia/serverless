@@ -31,7 +31,7 @@
             [
               "forex",
               "dev",
-              "us-east-1",
+              "us-west-2",
               "lambdaRole"
             ]
           ]
@@ -70,7 +70,7 @@
                     [
                       {
                         "Fn::GetAtt": [
-                          "HelloLogGroup",
+                          "InstallLogGroup",
                           "Arn"
                         ]
                       },
@@ -89,23 +89,23 @@
         ]
       }
     },
-    "HelloLogGroup": {
+    "InstallLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/forex-dev-hello"
+        "LogGroupName": "/aws/lambda/forex-dev-install"
       }
     },
-    "HelloLambdaFunction": {
+    "InstallLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/forex/dev/1505207674856-2017-09-12T09:14:34.856Z/forex.zip"
+          "S3Key": "serverless/forex/dev/1505238799317-2017-09-12T17:53:19.317Z/forex.zip"
         },
-        "FunctionName": "forex-dev-hello",
-        "Handler": "handler.hello",
+        "FunctionName": "forex-dev-install",
+        "Handler": "install.handler",
         "MemorySize": 1024,
         "Role": {
           "Fn::GetAtt": [
@@ -114,21 +114,133 @@
           ]
         },
         "Runtime": "nodejs4.3",
-        "Timeout": 6
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "CLIENT_ID": "239594296340.240813514535",
+            "ClIENT_SECRET": "0b93698513a87899a038c964f778a8fe",
+            "INSTALL_SUCCESS_URL": "http://serverlessslackbot.s3-website-us-west-2.amazonaws.com/#success",
+            "INSTALL_ERROR_URL": "http://serverlessslackbot.s3-website-us-west-2.amazonaws.com/#error"
+          }
+        }
       },
       "DependsOn": [
         "IamPolicyLambdaExecution",
         "IamRoleLambdaExecution"
       ]
     },
-    "HelloLambdaVersionEOf92BgfHeYqPpug8eX1AIQUcxPFgRsZ9chokzT8Cb0": {
+    "InstallLambdaVersion9imhvOwkl3WEwJxQKSZt0YKIKnsWYtSLpYI3oxAMog": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "HelloLambdaFunction"
+          "Ref": "InstallLambdaFunction"
         },
-        "CodeSha256": "EOf92BgfHeYqPpug8eX1AIQUcxPFgRsZ9chokzT8Cb0="
+        "CodeSha256": "9imhvOw/kl3WEwJxQKSZt0YKIKnsWYtSLpYI3oxAMog="
+      }
+    },
+    "ApiGatewayRestApi": {
+      "Type": "AWS::ApiGateway::RestApi",
+      "Properties": {
+        "Name": "dev-forex"
+      }
+    },
+    "ApiGatewayResourceInstall": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "install",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodInstallGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceInstall"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "InstallLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayDeployment1505238799325": {
+      "Type": "AWS::ApiGateway::Deployment",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "StageName": "dev"
+      },
+      "DependsOn": [
+        "ApiGatewayMethodInstallGet"
+      ]
+    },
+    "InstallLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "InstallLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:aws:execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
       }
     }
   },
@@ -138,10 +250,25 @@
         "Ref": "ServerlessDeploymentBucket"
       }
     },
-    "HelloLambdaFunctionQualifiedArn": {
+    "InstallLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HelloLambdaVersionEOf92BgfHeYqPpug8eX1AIQUcxPFgRsZ9chokzT8Cb0"
+        "Ref": "InstallLambdaVersion9imhvOwkl3WEwJxQKSZt0YKIKnsWYtSLpYI3oxAMog"
+      }
+    },
+    "ServiceEndpoint": {
+      "Description": "URL of the service endpoint",
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "ApiGatewayRestApi"
+            },
+            ".execute-api.us-west-2.amazonaws.com/dev"
+          ]
+        ]
       }
     }
   }
