@@ -20,7 +20,3 @@ functions:
       - http:
            path: install
            method: get
-
-functions:
-  hello:
-    handler: handler.hello
