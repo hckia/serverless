@@ -8,15 +8,15 @@ provider:
   stage: dev
   region: us-west-2
   environment:
-    CLIENT_ID: '239594296340.240813514535'
-    ClIENT_SECRET: 0b93698513a87899a038c964f778a8fe
-    INSTALL_SUCCESS_URL: http://serverlessslackbot.s3-website-us-west-2.amazonaws.com/#success
-    INSTALL_ERROR_URL: http://serverlessslackbot.s3-website-us-west-2.amazonaws.com/#error
+    CLIENT_ID: '239594296340.240427417923'
+    ClIENT_SECRET: a2fa6d563113c57355b4834d1831329c
+    INSTALL_SUCCESS_URL: https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/success.html
+    INSTALL_ERROR_URL: https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/error.html
 
 functions:
   install:
     handler: install.handler
     events:
       - http:
-           path: install
-           method: get
+          path: install
+          method: get
