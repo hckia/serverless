@@ -10,13 +10,13 @@ provider:
   environment:
     CLIENT_ID: ''
     ClIENT_SECRET: 
-    INSTALL_SUCCESS_URL: http://serverlessslackbot.s3-website-us-west-2.amazonaws.com/#success
-    INSTALL_ERROR_URL: http://serverlessslackbot.s3-website-us-west-2.amazonaws.com/#error
+    INSTALL_SUCCESS_URL: https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/success.html
+    INSTALL_ERROR_URL: https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/error.html
 
 functions:
   install:
     handler: install.handler
     events:
       - http:
-           path: install
-           method: get
+          path: install
+          method: get

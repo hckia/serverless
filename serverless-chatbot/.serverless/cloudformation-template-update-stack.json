@@ -102,7 +102,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/forex/dev/1505238799317-2017-09-12T17:53:19.317Z/forex.zip"
+          "S3Key": "serverless/forex/dev/1505314482467-2017-09-13T14:54:42.467Z/forex.zip"
         },
         "FunctionName": "forex-dev-install",
         "Handler": "install.handler",
@@ -119,8 +119,8 @@
           "Variables": {
             "CLIENT_ID": "",
             "ClIENT_SECRET": "",
-            "INSTALL_SUCCESS_URL": "http://serverlessslackbot.s3-website-us-west-2.amazonaws.com/#success",
-            "INSTALL_ERROR_URL": "http://serverlessslackbot.s3-website-us-west-2.amazonaws.com/#error"
+            "INSTALL_SUCCESS_URL": "https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/success.html",
+            "INSTALL_ERROR_URL": "https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/error.html"
           }
         }
       },
@@ -129,14 +129,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "InstallLambdaVersion9imhvOwkl3WEwJxQKSZt0YKIKnsWYtSLpYI3oxAMog": {
+    "InstallLambdaVersionSdVj819I8L9NINfnFLi13PPt3qXd7Kw9Rt6vORowM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "InstallLambdaFunction"
         },
-        "CodeSha256": "9imhvOw/kl3WEwJxQKSZt0YKIKnsWYtSLpYI3oxAMog="
+        "CodeSha256": "SdVj819I8L9NINfnFLi13PPt3qXd/7Kw9R/t6vORowM="
       }
     },
     "ApiGatewayRestApi": {
@@ -198,7 +198,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1505238799325": {
+    "ApiGatewayDeployment1505314482475": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -253,7 +253,7 @@
     "InstallLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "InstallLambdaVersion9imhvOwkl3WEwJxQKSZt0YKIKnsWYtSLpYI3oxAMog"
+        "Ref": "InstallLambdaVersionSdVj819I8L9NINfnFLi13PPt3qXd7Kw9Rt6vORowM"
       }
     },
     "ServiceEndpoint": {
