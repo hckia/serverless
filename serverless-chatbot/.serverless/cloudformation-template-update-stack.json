@@ -117,8 +117,8 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "CLIENT_ID": "239594296340.240813514535",
-            "ClIENT_SECRET": "0b93698513a87899a038c964f778a8fe",
+            "CLIENT_ID": "",
+            "ClIENT_SECRET": "",
             "INSTALL_SUCCESS_URL": "http://serverlessslackbot.s3-website-us-west-2.amazonaws.com/#success",
             "INSTALL_ERROR_URL": "http://serverlessslackbot.s3-website-us-west-2.amazonaws.com/#error"
           }
