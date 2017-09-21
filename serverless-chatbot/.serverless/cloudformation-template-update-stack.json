@@ -79,6 +79,16 @@
                   ]
                 }
               ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:PutItem"
+              ],
+              "Resource": [
+                "arn:aws:dynamodb:*:*:table/forex-dev-teams"
+              ]
             }
           ]
         },
@@ -102,7 +112,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/forex/dev/1505314482467-2017-09-13T14:54:42.467Z/forex.zip"
+          "S3Key": "serverless/forex/dev/1505967233809-2017-09-21T04:13:53.809Z/forex.zip"
         },
         "FunctionName": "forex-dev-install",
         "Handler": "install.handler",
@@ -118,9 +128,11 @@
         "Environment": {
           "Variables": {
             "CLIENT_ID": "239594296340.240427417923",
-            "ClIENT_SECRET": "a2fa6d563113c57355b4834d1831329c",
+            "CLIENT_SECRET": "a2fa6d563113c57355b4834d1831329c",
+            "INSTALL_ERROR_URL": "https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/error.html",
             "INSTALL_SUCCESS_URL": "https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/success.html",
-            "INSTALL_ERROR_URL": "https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/error.html"
+            "NAMESPACE": "forex-dev",
+            "TEAMS_TABLE": "forex-dev-teams"
           }
         }
       },
@@ -129,14 +141,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "InstallLambdaVersionSdVj819I8L9NINfnFLi13PPt3qXd7Kw9Rt6vORowM": {
+    "InstallLambdaVersion9CsButuZYGKGdLTd6wYDU5r9ODtIsOibRauEDfNr0w": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "InstallLambdaFunction"
         },
-        "CodeSha256": "SdVj819I8L9NINfnFLi13PPt3qXd/7Kw9R/t6vORowM="
+        "CodeSha256": "9CsButuZY/GKGdLTd6wYDU5r9ODtIsOibRauEDfNr0w="
       }
     },
     "ApiGatewayRestApi": {
@@ -198,7 +210,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1505314482475": {
+    "ApiGatewayDeployment1505967233816": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -242,6 +254,28 @@
           ]
         }
       }
+    },
+    "TeamsDynamoDbTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "forex-dev-teams",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "team_id",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "team_id",
+            "KeyType": "HASH"
+          }
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        }
+      }
     }
   },
   "Outputs": {
@@ -253,7 +287,7 @@
     "InstallLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "InstallLambdaVersionSdVj819I8L9NINfnFLi13PPt3qXd7Kw9Rt6vORowM"
+        "Ref": "InstallLambdaVersion9CsButuZYGKGdLTd6wYDU5r9ODtIsOibRauEDfNr0w"
       }
     },
     "ServiceEndpoint": {
