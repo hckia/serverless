@@ -2,6 +2,10 @@ service: forex
 
 frameworkVersion: "<=1.6.1"
 
+custom:
+  namespace: ${self:service}-${self:custom.stage}
+  stage: ${opt:stage, self:provider.stage}
+
 provider:
   name: aws
   runtime: nodejs4.3
@@ -10,8 +14,19 @@ provider:
   environment:
     CLIENT_ID: ''
     CLIENT_SECRET: 
-    INSTALL_SUCCESS_URL: https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/success.html
-    INSTALL_ERROR_URL: https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/error.html
+    CLIENT_ID: ''
+    CLIENT_SECRET: 
+    INSTALL_ERROR_URL: 
+    INSTALL_SUCCESS_URL: 
+    NAMESPACE: ${self:custom.namespace}
+    TEAMS_TABLE: ${self:custom.namespace}-teams
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource:
+        - arn:aws:dynamodb:*:*:table/${self:provider.environment.TEAMS_TABLE}
 
 functions:
   install:
@@ -20,3 +35,19 @@ functions:
       - http:
           path: install
           method: get
+
+resources:
+  Resources:
+    TeamsDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TEAMS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: team_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: team_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
