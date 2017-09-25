@@ -176,11 +176,11 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "CLIENT_ID": "239594296340.240427417923",
-            "CLIENT_SECRET": "a2fa6d563113c57355b4834d1831329c",
-            "VERIFICATION_TOKEN": "K5H6V75wj9lC3eXK5GDjFVHS",
-            "INSTALL_ERROR_URL": "https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/error.html",
-            "INSTALL_SUCCESS_URL": "https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/success.html",
+            "CLIENT_ID": "",
+            "CLIENT_SECRET": "",
+            "VERIFICATION_TOKEN": "",
+            "INSTALL_ERROR_URL": "",
+            "INSTALL_SUCCESS_URL": "",
             "NAMESPACE": "forex-dev",
             "TEAMS_TABLE": "forex-dev-teams"
           }
@@ -223,11 +223,11 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "CLIENT_ID": "239594296340.240427417923",
-            "CLIENT_SECRET": "a2fa6d563113c57355b4834d1831329c",
-            "VERIFICATION_TOKEN": "K5H6V75wj9lC3eXK5GDjFVHS",
-            "INSTALL_ERROR_URL": "https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/error.html",
-            "INSTALL_SUCCESS_URL": "https://s3-us-west-2.amazonaws.com/forex-dev-serverlessdeploymentbucket-o150tudg9vb9/success.html",
+            "CLIENT_ID": "",
+            "CLIENT_SECRET": "",
+            "VERIFICATION_TOKEN": "",
+            "INSTALL_ERROR_URL": "",
+            "INSTALL_SUCCESS_URL": "",
             "NAMESPACE": "forex-dev",
             "TEAMS_TABLE": "forex-dev-teams"
           }
